@@ -50,7 +50,7 @@ const LoginBtn = ({ onClick, loginPlatform }: Props): ReactElement => {
 
   return (
     <button className={`login-btn login-btn__${loginPlatform}`} onClick={onClick}>
-      <div>{svg()}</div>
+      {svg()}
       <span>{platform()}로 로그인</span>
     </button>
   );
