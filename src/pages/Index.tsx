@@ -5,7 +5,7 @@ import { LoginPlatform } from "../utils/types";
 // 앱의 entry point입니다. 로그인 및 회원가입 기능이 포함되어 있습니다.
 const Index = (): ReactElement => {
   return (
-    <div className="index">
+    <div className="index page">
       <div className="index__intro">
         <div className="index__desc">
           <span className="index__desc--title">짐프랜드</span>
