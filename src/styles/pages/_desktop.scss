@@ -1,0 +1,12 @@
+.desktop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+
+  span {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+}

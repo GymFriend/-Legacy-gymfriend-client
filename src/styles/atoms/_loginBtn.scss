@@ -1,0 +1,26 @@
+.login-btn {
+  display: flex;
+  width: 250px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: bold;
+
+  &__email {
+    background-color: transparent;
+  }
+
+  &__kakao {
+    background-color: $kakao;
+  }
+
+  &__google {
+    background-color: $google;
+  }
+
+  span {
+    padding-left: 7px;
+  }
+}
