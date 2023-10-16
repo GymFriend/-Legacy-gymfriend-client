@@ -11,7 +11,7 @@ const Index = (): ReactElement => {
           <span className="index__desc--title">짐프랜드</span>
           <span className="index__desc--sub">운동을 더욱 쉽고 재밌게!</span>
         </div>
-        <img src="images/test.jpg" />
+        <img alt="main" src="images/test.jpg" />
       </div>
       <div className="index__login">
         <LoginBtn onClick={() => {}} loginPlatform={LoginPlatform.kakao} />

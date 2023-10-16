@@ -125,3 +125,10 @@ table {
 button {
   border: none;
 }
+input {
+  border: none;
+
+  &:focus {
+    outline: none;
+  }
+}

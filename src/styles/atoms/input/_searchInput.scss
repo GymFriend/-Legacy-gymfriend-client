@@ -1,0 +1,18 @@
+.search-input {
+  display: flex;
+  align-items: center;
+  border: 2px $appColor solid;
+  border-radius: 15px;
+  background-color: white;
+  height: 50px;
+  padding: 0 15px;
+
+  input {
+    flex: 1;
+    font-size: 1rem;
+  }
+
+  &__svg {
+    margin-right: 10px;
+  }
+}

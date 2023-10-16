@@ -1,10 +1,11 @@
-import { ReactElement, useEffect } from "react";
-import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
+import { ReactElement } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { isMobile } from "react-device-detect";
 import Index from "../pages/Index";
 import WidgetTest from "../pages/WidgetTest";
-import { isMobile } from "react-device-detect";
 import Desktop from "../pages/Desktop";
 import Home from "../pages/Home";
+import Page404 from "../pages/Page404";
 
 const RootRouter = (): ReactElement => {
   return (
@@ -14,8 +15,8 @@ const RootRouter = (): ReactElement => {
         <Route path="/home" element={isMobile ? <Home /> : <Desktop />} />
         {/* 컴포넌트 테스트용 화면입니다. 퍼블리싱 환경에선 비활성화 혹은 삭제 요망 */}
         <Route path="/test" element={<WidgetTest />} />
+        <Route path="*" element={<Page404 />} />
       </Routes>
-      <Routes></Routes>
     </BrowserRouter>
   );
 };

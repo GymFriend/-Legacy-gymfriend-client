@@ -2,9 +2,12 @@
 @import "variables";
 @import "common";
 
-@import "atoms/primaryBtn";
-@import "atoms/loginBtn";
+@import "atoms/button/primaryBtn";
+@import "atoms/button/loginBtn";
+
+@import "atoms/input/searchInput";
 
 @import "pages/desktop";
 @import "pages/index";
 @import "pages/home";
+@import "pages/page404";
