@@ -9,7 +9,7 @@ import { Container as MapDiv, NaverMap, Marker, useNavermaps } from "react-naver
 const Home = (): ReactElement => {
   const navermaps = useNavermaps();
 
-  const [userLocation, setuserLocation] = useState<{ lat: number; lng: number }>({ lat: 0, lng: 0 });
+  const [userLocation, setuserLocation] = useState<{ lat: number | null; lng: number | null }>({ lat: null, lng: null });
   const [bottomSheetToggle, setBottomShtteToggle] = useState<boolean>(false);
 
   const [validLocationPermission, setValidLocationPermission] = useState<boolean>(false);
@@ -45,8 +45,8 @@ const Home = (): ReactElement => {
 
   // 헬스장 정보를 요청하는 코드입니다
   const requestGymInfo = async (): Promise<void> => {
-    const result: any = await fetchGymInfo(userLocation);
-    console.log(result);
+    // const result: any = await fetchGymInfo(userLocation);
+    // console.log(result);
   };
 
   const onBottomSheetToggle = (): void => {
@@ -73,16 +73,16 @@ const Home = (): ReactElement => {
 
   return (
     <div className="home page">
-      {userLocation.lat !== 0 && userLocation.lng !== 0 && (
-        <MapDiv className="home__map">
+      <MapDiv className="home__map">
+        {userLocation.lat !== null && userLocation.lng !== null && (
           <NaverMap defaultCenter={new navermaps.LatLng(userLocation.lat, userLocation.lng)} defaultZoom={17}>
             <Marker position={userLocation} />
             {gymMarkers.map((m, idx) => {
               return <Marker key={idx} position={new navermaps.LatLng(m.lat, m.lng)} />;
             })}
           </NaverMap>
-        </MapDiv>
-      )}
+        )}
+      </MapDiv>
       <div className="home__input">
         <SearchInput onChange={setGymSearch} />
       </div>
