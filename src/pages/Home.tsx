@@ -4,49 +4,21 @@ import { useInput } from "../hooks/UseInput";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
 import { fetchGymInfo } from "../apis/MapApi";
+import { Container as MapDiv, NaverMap, Marker, useNavermaps } from "react-naver-maps";
 
 const Home = (): ReactElement => {
-  const mapRef = useRef<HTMLDivElement | null>(null);
-  const { naver }: any = window;
+  const navermaps = useNavermaps();
 
-  const [userLocation, setuserLocation] = useState<{ lat: number; lng: number }>({ lat: 37.5656, lng: 126.9769 });
+  const [userLocation, setuserLocation] = useState<{ lat: number; lng: number }>({ lat: 0, lng: 0 });
   const [bottomSheetToggle, setBottomShtteToggle] = useState<boolean>(false);
 
   const [validLocationPermission, setValidLocationPermission] = useState<boolean>(false);
   const [gymSearch, setGymSearch, resetGymSearch] = useInput<string>("");
 
-  // 지도를 초기화하는 코드입니다.
-  const initMap = (): void => {
-    if (!mapRef.current || !naver) return;
-
-    // 유저의 위치입니다
-    const useLocation: any = new naver.maps.LatLng(userLocation.lat, userLocation.lng);
-    const mapOptions: any = {
-      center: useLocation,
-      zoom: 17,
-    };
-
-    const map: any = new naver.maps.Map(mapRef.current, mapOptions);
-
-    const gymMarkers = [
-      { lat: 37.4970497303391, lng: 127.10640182261494 },
-      { lat: 37.49735965599469, lng: 127.10742003263563 },
-    ];
-
-    // 유저의 위치를 마커로 표시합니다
-    new naver.maps.Marker({
-      position: useLocation,
-      map,
-    });
-
-    // 헬스장 위치를 마커로 표시합니다
-    gymMarkers.forEach((m) => {
-      new naver.maps.Marker({
-        position: new naver.maps.LatLng(m.lat, m.lng),
-        map,
-      });
-    });
-  };
+  const gymMarkers = [
+    { lat: 37.4970497303391, lng: 127.10640182261494 },
+    { lat: 37.49735965599469, lng: 127.10742003263563 },
+  ];
 
   // 유저에게 위치 권한을 요청하는 코드입니다.
   const requestLocationPermission = (): void => {
@@ -86,10 +58,6 @@ const Home = (): ReactElement => {
   }, []);
 
   useEffect(() => {
-    initMap();
-  }, [userLocation]);
-
-  useEffect(() => {
     const intervalId: NodeJS.Timer = setInterval(() => {
       navigator.geolocation.getCurrentPosition((pos: GeolocationPosition) => {
         // 위치 정보를 성공적으로 가져온 경우
@@ -105,7 +73,16 @@ const Home = (): ReactElement => {
 
   return (
     <div className="home page">
-      <div ref={mapRef} className="home__map" />
+      {userLocation.lat !== 0 && userLocation.lng !== 0 && (
+        <MapDiv className="home__map">
+          <NaverMap defaultCenter={new navermaps.LatLng(userLocation.lat, userLocation.lng)} defaultZoom={17}>
+            <Marker position={userLocation} />
+            {gymMarkers.map((m, idx) => {
+              return <Marker key={idx} position={new navermaps.LatLng(m.lat, m.lng)} />;
+            })}
+          </NaverMap>
+        </MapDiv>
+      )}
       <div className="home__input">
         <SearchInput onChange={setGymSearch} />
       </div>

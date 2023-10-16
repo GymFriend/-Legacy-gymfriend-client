@@ -8,6 +8,7 @@ import rootReducer from "./store/RootReducer";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import "./styles/main.scss";
+import { NavermapsProvider } from "react-naver-maps";
 
 export const store = configureStore({
   reducer: rootReducer,
@@ -18,11 +19,13 @@ const persistor = persistStore(store);
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
-  <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <RootRouter />
-    </PersistGate>
-  </Provider>
+  <NavermapsProvider ncpClientId={process.env.REACT_APP_NAVER_MAP_ID!}>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <RootRouter />
+      </PersistGate>
+    </Provider>
+  </NavermapsProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
