@@ -1,4 +1,7 @@
 .index {
+  background-color: $appColor;
+  color: white;
+
   &__intro {
     display: flex;
     flex-direction: column;
@@ -6,12 +9,6 @@
     align-items: center;
     justify-content: center;
     padding-top: 20%;
-
-    img {
-      width: 350px;
-      height: 250px;
-      margin-top: 50px;
-    }
   }
 
   &__login {
@@ -30,13 +27,13 @@
     padding-left: 25%;
 
     &--title {
-      font-size: 2.2rem;
+      font-size: 2.7rem;
       font-weight: bold;
       margin-bottom: 10px;
     }
 
     &--sub {
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       font-weight: 500;
     }
   }

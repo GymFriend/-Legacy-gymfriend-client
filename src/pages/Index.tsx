@@ -8,10 +8,9 @@ const Index = (): ReactElement => {
     <div className="index page">
       <div className="index__intro">
         <div className="index__desc">
-          <span className="index__desc--title">짐프랜드</span>
+          <span className="index__desc--title">GymFriend</span>
           <span className="index__desc--sub">운동을 더욱 쉽고 재밌게!</span>
         </div>
-        <img alt="main" src="images/test.jpg" />
       </div>
       <div className="index__login">
         <LoginBtn onClick={() => {}} loginPlatform={LoginPlatform.kakao} />

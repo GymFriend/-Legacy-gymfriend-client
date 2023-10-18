@@ -19,13 +19,13 @@ const persistor = persistStore(store);
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
-  <NavermapsProvider ncpClientId={process.env.REACT_APP_NAVER_MAP_ID!}>
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
+  <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
+      <NavermapsProvider ncpClientId={process.env.REACT_APP_NAVER_MAP_ID!}>
         <RootRouter />
-      </PersistGate>
-    </Provider>
-  </NavermapsProvider>
+      </NavermapsProvider>
+    </PersistGate>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function
