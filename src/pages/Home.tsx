@@ -4,11 +4,14 @@ import { useInput } from "../hooks/UseInput";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import { Coordinate } from "../utils/interfaces";
 import "react-spring-bottom-sheet/dist/style.css";
+import { fetchGymInfo } from "../apis/MapApi";
+import { GymInfo } from "../models/Gym";
 
 const Home = (): ReactElement => {
   const [validLocationPermission, setValidLocationPermission] = useState<boolean>(false);
   const [userLocation, setuserLocation] = useState<Coordinate | null>(null);
   const [bottomSheetToggle, setBottomShtteToggle] = useState<boolean>(false);
+  const [searchResult, setSearchResult] = useState<GymInfo[]>([]);
 
   const [gymSearch, setGymSearch, resetGymSearch] = useInput<string>("");
 
@@ -37,8 +40,8 @@ const Home = (): ReactElement => {
 
   // 헬스장 정보를 요청하는 코드입니다
   const requestGymInfo = async (): Promise<void> => {
-    // const result: any = await fetchGymInfo(userLocation);
-    // console.log(result);
+    const response: GymInfo[] = await fetchGymInfo("송파역 헬스장");
+    console.log(response);
   };
 
   // BottomSheet를 toggle하는 코드입니다
@@ -66,12 +69,14 @@ const Home = (): ReactElement => {
 
   return (
     <div className="home page">
-      <div className="home__input">
-        <SearchInput onChange={setGymSearch} />
+      <div className="home__header">
+        <span>짐프랜드</span>
+        <span>20,000P</span>
       </div>
-      <button style={{ position: "absolute", top: "200px" }} onClick={requestGymInfo}>
-        api request
-      </button>
+      <div className="home__input">
+        <SearchInput onChange={setGymSearch} placeholder="헬스장 검색" />
+      </div>
+      <button onClick={requestGymInfo}>api request</button>
       <BottomSheet open={bottomSheetToggle} onDismiss={onBottomSheetToggle}>
         <div className="home__bottom-sheet-container"></div>
       </BottomSheet>
