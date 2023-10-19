@@ -4,13 +4,15 @@ import { FaSearch } from "react-icons/fa";
 interface Props {
   placeholder?: string | undefined;
   onChange: ChangeEventHandler;
+  prefix?: ReactElement | null;
 }
 
-const SearchInput = ({ placeholder, onChange }: Props): ReactElement => {
+const SearchInput = ({ placeholder, onChange, prefix }: Props): ReactElement => {
   return (
     <div className="search-input">
-      <FaSearch className="search-input__svg" />
+      <FaSearch />
       <input placeholder={placeholder} onChange={onChange} />
+      {prefix}
     </div>
   );
 };

@@ -6,12 +6,17 @@ import { Coordinate } from "../utils/interfaces";
 import "react-spring-bottom-sheet/dist/style.css";
 import { fetchGymInfo } from "../apis/MapApi";
 import { GymInfo } from "../models/Gym";
+import PrimaryBtn from "../atoms/button/PrimaryBtn";
+import { WidgetColor, WidgetSize } from "../utils/types";
+import Map from "../components/Map";
 
 const Home = (): ReactElement => {
   const [validLocationPermission, setValidLocationPermission] = useState<boolean>(false);
   const [userLocation, setuserLocation] = useState<Coordinate | null>(null);
+  const [searchedGym, setSearchedGym] = useState<GymInfo[]>([]);
+  const [selectedGym, setSelectedGym] = useState<GymInfo | null>(null);
   const [bottomSheetToggle, setBottomShtteToggle] = useState<boolean>(false);
-  const [searchResult, setSearchResult] = useState<GymInfo[]>([]);
+  const [dropdownToggle, setDropdownToggle] = useState<boolean>(false);
 
   const [gymSearch, setGymSearch, resetGymSearch] = useInput<string>("");
 
@@ -40,13 +45,33 @@ const Home = (): ReactElement => {
 
   // 헬스장 정보를 요청하는 코드입니다
   const requestGymInfo = async (): Promise<void> => {
-    const response: GymInfo[] = await fetchGymInfo("송파역 헬스장");
-    console.log(response);
+    if (gymSearch === "") {
+      alert("검색어를 입력해 주세요.");
+      return;
+    }
+
+    // 유저가 검색한 query에 대한 헬스장 정보가 담긴 배열입니다
+    const response: GymInfo[] = await fetchGymInfo(gymSearch);
+
+    setSearchedGym(response);
+    setDropdownToggle(true);
   };
 
-  // BottomSheet를 toggle하는 코드입니다
-  const onBottomSheetToggle = (): void => {
-    setBottomShtteToggle(!bottomSheetToggle);
+  // BottomSheet를 on하는 함수입니다
+  const onBottomSheetOn = (gymInfo: GymInfo): void => {
+    setSelectedGym(gymInfo);
+    setBottomShtteToggle(true);
+  };
+
+  // BottomSheet를 off하는 함수입니다
+  const onBottomSheetOff = (): void => {
+    setSelectedGym(null);
+    setBottomShtteToggle(false);
+  };
+
+  // Dropdown을 off하는 함수입니다
+  const onDropdownOff = (): void => {
+    setDropdownToggle(false);
   };
 
   useEffect(() => {
@@ -68,18 +93,35 @@ const Home = (): ReactElement => {
   }, [validLocationPermission]);
 
   return (
-    <div className="home page">
+    <div className="home page" onClick={onDropdownOff}>
       <div className="home__header">
         <span>짐프랜드</span>
         <span>20,000P</span>
       </div>
-      <div className="home__input">
-        <SearchInput onChange={setGymSearch} placeholder="헬스장 검색" />
+      <div className="home__search" onClick={(e: any) => e.stopPropagation()}>
+        <SearchInput onChange={setGymSearch} placeholder="헬스장을 검색해주세요." prefix={<PrimaryBtn label="검색" onClick={requestGymInfo} widgetSize={WidgetSize.small} widgetColor={WidgetColor.appColor} />} />
+        <div className={`home__gym-search-container home__gym-search-container--${dropdownToggle ? "on" : "off"}`}>
+          {searchedGym.map((v, idx) => {
+            return (
+              <div key={idx} className="home__searched-gym" onClick={() => onBottomSheetOn(v)}>
+                <span>{v.title.replace(/<b>|<\/b>/g, "")}</span>
+              </div>
+            );
+          })}
+        </div>
       </div>
-      <button onClick={requestGymInfo}>api request</button>
-      <BottomSheet open={bottomSheetToggle} onDismiss={onBottomSheetToggle}>
-        <div className="home__bottom-sheet-container"></div>
-      </BottomSheet>
+      {selectedGym && (
+        <BottomSheet open={bottomSheetToggle} onDismiss={onBottomSheetOff} onClick={(e: any) => e.stopPropagation()}>
+          <div className="home__bottom-sheet-container">
+            <div className="home__gym-detail">
+              <span className="home__gym-detail--title">{selectedGym.title.replace(/<b>|<\/b>/g, "")}</span>
+              <span className="home__gym-detail--address">{selectedGym.address}</span>
+            </div>
+            <Map location={{ lat: selectedGym.mapy, lng: selectedGym.mapx }} />
+            <PrimaryBtn label="등록하기" onClick={() => {}} widgetSize={WidgetSize.big} widgetColor={WidgetColor.appColor} />
+          </div>
+        </BottomSheet>
+      )}
     </div>
   );
 };
