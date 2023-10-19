@@ -10,3 +10,7 @@ export const integerToDecimal = (n: number, idx: number): number => {
 
   return parseFloat(`${integerPart}.${decimalPart}`);
 };
+
+export const stopPropagation = (e: any) => {
+  e.stopPropagation();
+};

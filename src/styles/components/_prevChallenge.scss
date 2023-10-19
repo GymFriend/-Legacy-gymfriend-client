@@ -1,0 +1,40 @@
+.prev-challenge {
+  display: flex;
+  width: 100%;
+  height: 80px;
+  margin-bottom: 20px;
+  padding: 0 10px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  border: 2px grey solid;
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 80%;
+  }
+
+  &__status {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__chip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 35px;
+    border-radius: 8px;
+    border: 2px solid;
+    box-sizing: border-box;
+
+    span {
+      font-size: 0.85rem;
+      font-weight: bold;
+    }
+  }
+}

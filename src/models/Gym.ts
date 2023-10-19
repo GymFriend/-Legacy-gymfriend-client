@@ -9,3 +9,16 @@ export interface GymInfo {
   mapx: number;
   mapy: number;
 }
+
+export interface ChallengeInfo {
+  gymName: string;
+  span: {
+    startAt: Date;
+    endAt: Date;
+  };
+  success: boolean;
+}
+
+export interface CurrentChallengeInfo extends ChallengeInfo {
+  progress: number;
+}
