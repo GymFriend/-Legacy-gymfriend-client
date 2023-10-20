@@ -1,9 +1,9 @@
-import { ChallengeInfo, CurrentChallengeInfo } from "./Gym";
+import { ChallengeInfo } from "./Gym";
 
 export interface User {
   uuid: string;
   name: string;
   point: number;
   prevChallenges?: ChallengeInfo[];
-  curChallenge?: CurrentChallengeInfo;
+  curChallenge?: ChallengeInfo;
 }

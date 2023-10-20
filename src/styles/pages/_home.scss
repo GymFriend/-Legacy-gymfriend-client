@@ -55,6 +55,22 @@
     }
   }
 
+  &__current-challenge {
+    display: flex;
+    align-items: center;
+
+    img {
+      width: 40px;
+      object-fit: cover;
+      margin-right: 10px;
+    }
+
+    span {
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
+  }
+
   &__current-gym {
     display: flex;
     flex-direction: column;

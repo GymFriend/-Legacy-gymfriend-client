@@ -4,7 +4,7 @@ import { useInput } from "../hooks/UseInput";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import { Coordinate } from "../utils/interfaces";
 import { fetchGymInfo } from "../apis/MapApi";
-import { ChallengeInfo, CurrentChallengeInfo, GymInfo } from "../models/Gym";
+import { ChallengeInfo, GymInfo } from "../models/Gym";
 import { WidgetColor, WidgetSize } from "../utils/types";
 import { stopPropagation } from "../utils/helper";
 import PrimaryBtn from "../atoms/button/PrimaryBtn";
@@ -16,10 +16,13 @@ import UnderlineBtn from "../atoms/button/UnderlineBtn";
 import { format } from "date-fns";
 import { dateFormatYMD } from "../utils/constant";
 import "react-spring-bottom-sheet/dist/style.css";
+import { useNavigate } from "react-router-dom";
 
 const category: string[] = ["챌린지", "히스토리"];
 
 const Home = (): ReactElement => {
+  const navigate = useNavigate();
+
   const [validLocationPermission, setValidLocationPermission] = useState<boolean>(false);
   const [userLocation, setuserLocation] = useState<Coordinate | null>(null);
   const [searchedGym, setSearchedGym] = useState<GymInfo[]>([]);
@@ -40,7 +43,8 @@ const Home = (): ReactElement => {
         endAt: new Date(2023, 1, 7),
       },
       success: true,
-      class: "주 7회 출석 챌린지",
+      class: 7,
+      progress: 100,
     },
     {
       gymName: "퍼니짐 가락점",
@@ -49,7 +53,8 @@ const Home = (): ReactElement => {
         endAt: new Date(2023, 4, 16),
       },
       success: false,
-      class: "주 3회 출석 챌린지",
+      class: 3,
+      progress: 81,
     },
     {
       gymName: "블루짐 헬리오시티점",
@@ -58,7 +63,8 @@ const Home = (): ReactElement => {
         endAt: new Date(2023, 4, 26),
       },
       success: true,
-      class: "주 5회 출석 챌린지",
+      class: 5,
+      progress: 100,
     },
     {
       gymName: "블루짐 헬리오시티점",
@@ -67,7 +73,8 @@ const Home = (): ReactElement => {
         endAt: new Date(2023, 4, 26),
       },
       success: true,
-      class: "주 5회 출석 챌린지",
+      class: 3,
+      progress: 100,
     },
     {
       gymName: "블루짐 헬리오시티점",
@@ -76,7 +83,8 @@ const Home = (): ReactElement => {
         endAt: new Date(2023, 4, 26),
       },
       success: true,
-      class: "주 5회 출석 챌린지",
+      class: 7,
+      progress: 100,
     },
     {
       gymName: "퍼니짐 가락점",
@@ -85,18 +93,29 @@ const Home = (): ReactElement => {
         endAt: new Date(2023, 4, 16),
       },
       success: false,
-      class: "주 3회 출석 챌린지",
+      class: 1,
+      progress: 0,
+    },
+    {
+      gymName: "퍼니짐 가락점",
+      span: {
+        startAt: new Date(2023, 4, 10),
+        endAt: new Date(2023, 4, 16),
+      },
+      success: true,
+      class: 1,
+      progress: 100,
     },
   ];
 
-  const curChallenge: CurrentChallengeInfo = {
+  const curChallenge: ChallengeInfo = {
     gymName: "블루짐 헬리오시티점",
     span: {
       startAt: new Date(2023, 5, 3),
       endAt: new Date(2023, 5, 9),
     },
     success: false,
-    class: "주 3회 출석 챌린지",
+    class: 3,
     progress: 31,
   };
 
@@ -105,7 +124,7 @@ const Home = (): ReactElement => {
     name: "짐프랜드",
     point: 50000,
     prevChallenges: prevChallenges,
-    curChallenge: curChallenge,
+    curChallenge: undefined,
   };
 
   //////////////////////////////////////////////////////////////////////
@@ -170,6 +189,11 @@ const Home = (): ReactElement => {
     setDropdownToggle(false);
   };
 
+  // 챌린지 및 경쟁전 등록 페이지로 이동하는 함수입니다
+  const gotoJoin = (): void => {
+    navigate("/join", { state: { gymInfo: selectedGym } });
+  };
+
   useEffect(() => {
     requestLocationPermission();
   }, []);
@@ -204,7 +228,10 @@ const Home = (): ReactElement => {
           {user.curChallenge ? (
             <>
               <div className="home__status">
-                <span>{user.curChallenge.class}</span>
+                <div className="home__current-challenge">
+                  <img src={`images/challenge_${user.curChallenge.class}.png`} />
+                  <span>주 {user.curChallenge.class}회 출석 챌린지</span>
+                </div>
                 <div className="home__current-gym">
                   <span>{user.curChallenge.gymName}</span>
                   <span>
@@ -259,7 +286,7 @@ const Home = (): ReactElement => {
               <span className="home__gym-detail--address">{selectedGym.address}</span>
             </div>
             <Map location={{ lat: selectedGym.mapy, lng: selectedGym.mapx }} />
-            <PrimaryBtn label="등록하기" onClick={() => {}} widgetSize={WidgetSize.big} widgetColor={WidgetColor.appColor} />
+            <PrimaryBtn label="등록하기" onClick={gotoJoin} widgetSize={WidgetSize.big} widgetColor={WidgetColor.appColor} />
           </div>
         )}
       </BottomSheet>
