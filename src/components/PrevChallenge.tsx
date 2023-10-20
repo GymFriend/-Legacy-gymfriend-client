@@ -11,8 +11,8 @@ const PrevChallenge = ({ challenge }: Props): ReactElement => {
   return (
     <div className="prev-challenge">
       <div className="prev-challenge__info">
-        <span>{challenge.gymName}</span>
-        <span>
+        <span className="prev-challenge__gymname">{challenge.gymName}</span>
+        <span className="prev-challenge__span">
           {format(challenge.span.startAt, dateFormatYMD)} ~ {format(challenge.span.endAt, dateFormatYMD)}
         </span>
       </div>

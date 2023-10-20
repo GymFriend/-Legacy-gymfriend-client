@@ -17,6 +17,7 @@ export interface ChallengeInfo {
     endAt: Date;
   };
   success: boolean;
+  class: string;
 }
 
 export interface CurrentChallengeInfo extends ChallengeInfo {
