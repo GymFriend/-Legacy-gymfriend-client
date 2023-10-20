@@ -12,12 +12,19 @@ import Map from "../components/Map";
 import "react-spring-bottom-sheet/dist/style.css";
 import { User } from "../models/User";
 import PrevChallenge from "../components/PrevChallenge";
+import ProgressBar from "../atoms/ProgressBar";
+import UnderlineBtn from "../atoms/button/UnderlineBtn";
+import { format } from "date-fns";
+import { dateFormatYMD } from "../utils/constant";
+
+const category: string[] = ["챌린지", "히스토리"];
 
 const Home = (): ReactElement => {
   const [validLocationPermission, setValidLocationPermission] = useState<boolean>(false);
   const [userLocation, setuserLocation] = useState<Coordinate | null>(null);
   const [searchedGym, setSearchedGym] = useState<GymInfo[]>([]);
   const [selectedGym, setSelectedGym] = useState<GymInfo | null>(null);
+  const [currentCategory, setCurrentCategory] = useState<string>(category[0]);
   const [bottomSheetToggle, setBottomShtteToggle] = useState<boolean>(false);
   const [dropdownToggle, setDropdownToggle] = useState<boolean>(false);
 
@@ -50,6 +57,46 @@ const Home = (): ReactElement => {
       },
       success: true,
     },
+    {
+      gymName: "해피짐 송파점",
+      span: {
+        startAt: new Date(2023, 1, 1),
+        endAt: new Date(2023, 1, 7),
+      },
+      success: true,
+    },
+    {
+      gymName: "퍼니짐 가락점",
+      span: {
+        startAt: new Date(2023, 4, 10),
+        endAt: new Date(2023, 4, 16),
+      },
+      success: false,
+    },
+    {
+      gymName: "블루짐 헬리오시티점",
+      span: {
+        startAt: new Date(2023, 4, 20),
+        endAt: new Date(2023, 4, 26),
+      },
+      success: true,
+    },
+    {
+      gymName: "해피짐 송파점",
+      span: {
+        startAt: new Date(2023, 1, 1),
+        endAt: new Date(2023, 1, 7),
+      },
+      success: true,
+    },
+    {
+      gymName: "퍼니짐 가락점",
+      span: {
+        startAt: new Date(2023, 4, 10),
+        endAt: new Date(2023, 4, 16),
+      },
+      success: false,
+    },
   ];
 
   const curChallenge: CurrentChallengeInfo = {
@@ -66,8 +113,8 @@ const Home = (): ReactElement => {
     uuid: "096ccbfe-6e66-11ee-b962-0242ac120002",
     name: "짐프랜드",
     point: 50000,
-    prevChallenges: undefined,
-    curChallenge: undefined,
+    prevChallenges: prevChallenges,
+    curChallenge: curChallenge,
   };
 
   //////////////////////////////////////////////////////////////////////
@@ -110,6 +157,11 @@ const Home = (): ReactElement => {
     setDropdownToggle(true);
   };
 
+  // 현재 카테고리를 선택하는 함수입니다
+  const onCurrentCategory = (c: string) => {
+    setCurrentCategory(c);
+  };
+
   // BottomSheet를 on하는 함수입니다
   const onBottomSheetOn = (gymInfo: GymInfo): void => {
     setSelectedGym(gymInfo);
@@ -149,32 +201,68 @@ const Home = (): ReactElement => {
     <div className="home page" onClick={onDropdownOff}>
       <div className="home__header">
         <span>{user.name}</span>
-        <span>{user.point}P</span>
+        <span>{user.point.toLocaleString()}P</span>
       </div>
-      {!user.curChallenge && (
-        <div className="home__search" onClick={stopPropagation}>
-          <SearchInput onChange={setGymSearch} placeholder="헬스장을 검색해주세요." prefix={<PrimaryBtn label="검색" onClick={requestGymInfo} widgetSize={WidgetSize.small} widgetColor={WidgetColor.appColor} />} />
-          <div className={`home__gym-search-container home__gym-search-container--${dropdownToggle ? "on" : "off"}`}>
-            {searchedGym.map((v, idx) => {
-              return (
-                <div key={idx} className="home__searched-gym" onClick={() => onBottomSheetOn(v)}>
-                  <span>{v.title.replace(/<b>|<\/b>/g, "")}</span>
+      <div className="home__nav">
+        {category.map((v, idx) => {
+          return <UnderlineBtn key={idx} label={v} onClick={() => onCurrentCategory(v)} activate={currentCategory === v} style={{ marginRight: 10 }} />;
+        })}
+      </div>
+      <div className={`home__body home__body--${currentCategory === category[0] ? "challenge" : "history"}`}>
+        {currentCategory === category[0] ? (
+          <>
+            {user.curChallenge ? (
+              <>
+                <div className="home__status">
+                  <div className="home__current-gym">
+                    <span>{user.curChallenge.gymName}</span>
+                    <span>
+                      {format(user.curChallenge.span.startAt, dateFormatYMD)} ~ {format(user.curChallenge.span.endAt, dateFormatYMD)}
+                    </span>
+                  </div>
+                  <div className="home__progress">
+                    <ProgressBar width={user.curChallenge.progress} />
+                    <span>{user.curChallenge.progress}%</span>
+                  </div>
                 </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
-      <div className="home__ongoing">{user.curChallenge ? "챌린지 진행중" : "챌린지 없음"}</div>
-      <div className="home__body">
-        {user.prevChallenges ? (
-          <div>
-            {user.prevChallenges.map((v, idx) => {
-              return <PrevChallenge key={idx} challenge={v} />;
-            })}
-          </div>
+                <PrimaryBtn label="출석하기" onClick={() => {}} widgetSize={WidgetSize.big} widgetColor={WidgetColor.appColor} />
+              </>
+            ) : (
+              <>
+                <div className="home__search" onClick={stopPropagation}>
+                  <SearchInput
+                    onChange={setGymSearch}
+                    placeholder="헬스장을 검색해주세요."
+                    prefix={<PrimaryBtn label="검색" onClick={requestGymInfo} widgetSize={WidgetSize.small} widgetColor={WidgetColor.appColor} />}
+                  />
+                  <div className={`home__gym-search-container home__gym-search-container--${dropdownToggle ? "on" : "off"}`}>
+                    {searchedGym.map((v, idx) => {
+                      return (
+                        <div key={idx} className="home__searched-gym" onClick={() => onBottomSheetOn(v)}>
+                          <span>{v.title.replace(/<b>|<\/b>/g, "")}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+                <div className="home__no-challenge">
+                  <span className="home__no-result">진행중인 챌린지가 없어요😢</span>
+                </div>
+              </>
+            )}
+          </>
         ) : (
-          <div>이전 챌린지 내역 없음</div>
+          <div className="home__history">
+            {user.prevChallenges ? (
+              <>
+                {user.prevChallenges.map((v, idx) => {
+                  return <PrevChallenge key={idx} challenge={v} />;
+                })}
+              </>
+            ) : (
+              <span className="home__no-result">챌린지 기록이 없어요😢</span>
+            )}
+          </div>
         )}
       </div>
       <BottomSheet open={bottomSheetToggle} onDismiss={onBottomSheetOff} onClick={stopPropagation}>

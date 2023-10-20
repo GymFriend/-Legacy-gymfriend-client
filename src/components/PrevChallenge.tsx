@@ -1,6 +1,7 @@
 import React, { ReactElement } from "react";
 import { ChallengeInfo } from "../models/Gym";
 import { format } from "date-fns";
+import { dateFormatYMD } from "../utils/constant";
 
 interface Props {
   challenge: ChallengeInfo;
@@ -12,7 +13,7 @@ const PrevChallenge = ({ challenge }: Props): ReactElement => {
       <div className="prev-challenge__info">
         <span>{challenge.gymName}</span>
         <span>
-          {format(challenge.span.startAt, "yyyy-MM-dd")} ~ {format(challenge.span.endAt, "yyyy-MM-dd")}
+          {format(challenge.span.startAt, dateFormatYMD)} ~ {format(challenge.span.endAt, dateFormatYMD)}
         </span>
       </div>
       <div className="prev-challenge__status">

@@ -1,13 +1,16 @@
 .home {
   align-items: center;
-  overflow-y: scroll;
+
+  ////////////////////////////////////////////////////
+  // layout //////////////////////////////////////////
 
   &__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    height: 100px;
+    height: 80px;
+    padding-top: 20px;
 
     span {
       font-size: 1rem;
@@ -15,19 +18,67 @@
     }
   }
 
+  &__nav {
+    width: 100%;
+  }
+
   &__body {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    flex: 1;
+    padding: 40px 0;
+
+    &--challenge {
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  ////////////////////////////////////////////////////
+  // category ////////////////////////////////////////
+
+  &__history {
     display: flex;
     flex-direction: column;
     flex: 1;
     width: 100%;
+    align-items: center;
+    justify-content: center;
   }
 
-  &__ongoing {
+  ////////////////////////////////////////////////////
+  // challenge ///////////////////////////////////////
+
+  &__status {
     display: flex;
-    align-items: center;
-    justify-content: space-evenly;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 90%;
+    height: 140px;
+
+    span {
+      margin-top: 12px;
+      font-size: 0.85rem;
+      font-weight: bold;
+    }
+  }
+
+  &__current-gym {
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    height: 150px;
+
+    span {
+      font-size: 1rem;
+    }
+  }
+
+  &__progress {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: end;
   }
 
   &__search {
@@ -62,6 +113,26 @@
     }
   }
 
+  &__no-challenge {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  ////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////
+
+  &__no-result {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+
+  ////////////////////////////////////////////////////
+  // bottom sheet ////////////////////////////////////
+
   &__bottom-sheet-container {
     display: flex;
     flex-direction: column;
@@ -86,4 +157,7 @@
       font-size: 1rem;
     }
   }
+
+  ////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////
 }

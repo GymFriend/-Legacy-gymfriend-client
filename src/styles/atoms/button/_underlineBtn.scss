@@ -1,0 +1,9 @@
+.underline-btn {
+  height: 50px;
+  background-color: transparent;
+  font-weight: bold;
+
+  &--activate {
+    border-bottom: 2px $appColor solid;
+  }
+}
