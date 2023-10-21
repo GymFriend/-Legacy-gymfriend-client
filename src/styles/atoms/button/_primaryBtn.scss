@@ -1,5 +1,9 @@
 .primary-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 8px;
+  padding: 10px 20px;
 
   &--big {
     height: 50px;

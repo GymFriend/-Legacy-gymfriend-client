@@ -40,6 +40,9 @@
   }
 
   ////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////
+
+  ////////////////////////////////////////////////////
   // challenge ///////////////////////////////////////
 
   &__status {
@@ -175,4 +178,66 @@
 
   ////////////////////////////////////////////////////
   ////////////////////////////////////////////////////
+}
+
+.prev-challenge {
+  display: flex;
+  width: 100%;
+  height: 100px;
+  padding: 0 10px;
+  box-sizing: border-box;
+  border-top: 2px rgb(208, 208, 208) solid;
+
+  &:last-child {
+    border-bottom: 2px rgb(208, 208, 208) solid;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 80%;
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+
+    img {
+      width: 22px;
+      object-fit: cover;
+      margin-left: 8px;
+    }
+
+    span {
+      font-weight: bold;
+    }
+  }
+
+  &__span {
+    font-size: 0.8rem;
+  }
+
+  &__status {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__chip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 35px;
+    border-radius: 8px;
+    border: 2px solid;
+    box-sizing: border-box;
+
+    span {
+      font-size: 0.85rem;
+      font-weight: bold;
+    }
+  }
 }

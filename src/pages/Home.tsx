@@ -10,7 +10,6 @@ import { stopPropagation } from "../utils/helper";
 import PrimaryBtn from "../atoms/button/PrimaryBtn";
 import Map from "../components/Map";
 import { User } from "../models/User";
-import PrevChallenge from "../components/PrevChallenge";
 import ProgressBar from "../atoms/ProgressBar";
 import UnderlineBtn from "../atoms/button/UnderlineBtn";
 import { format } from "date-fns";
@@ -19,6 +18,31 @@ import "react-spring-bottom-sheet/dist/style.css";
 import { useNavigate } from "react-router-dom";
 
 const category: string[] = ["챌린지", "히스토리"];
+
+interface PrevChallengeProps {
+  challenge: ChallengeInfo;
+}
+
+const PrevChallenge = ({ challenge }: PrevChallengeProps): ReactElement => {
+  return (
+    <div className="prev-challenge">
+      <div className="prev-challenge__info">
+        <div className="prev-challenge__title">
+          <span>{challenge.gymName}</span>
+          <img src={`images/challenge_${challenge.class}.png`} />
+        </div>
+        <span className="prev-challenge__span">
+          {format(challenge.span.startAt, dateFormatYMD)} ~ {format(challenge.span.endAt, dateFormatYMD)}
+        </span>
+      </div>
+      <div className="prev-challenge__status">
+        <div className="prev-challenge__chip" style={{ borderColor: challenge.success ? "blue" : "red" }}>
+          <span>{challenge.success ? "성공" : "실패"}</span>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const Home = (): ReactElement => {
   const navigate = useNavigate();

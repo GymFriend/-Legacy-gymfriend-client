@@ -9,7 +9,7 @@ interface Props {
 
 const UnderlineBtn = ({ label, onClick, style, activate }: Props): ReactElement => {
   return (
-    <button className={`underline-btn underline-btn--${activate && "activate"}`} onClick={onClick} style={style}>
+    <button className={`underline-btn ${activate && "underline-btn--activate"}`} onClick={onClick} style={style}>
       {label}
     </button>
   );

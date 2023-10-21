@@ -6,10 +6,9 @@ interface Props {
   onClick: () => void;
   widgetSize: WidgetSizeType;
   widgetColor: WidgetColorType;
-  width?: string | number;
 }
 
-const PrimaryBtn = ({ label, onClick, widgetSize, widgetColor, width }: Props): ReactElement => {
+const PrimaryBtn = ({ label, onClick, widgetSize, widgetColor }: Props): ReactElement => {
   const size = (): string => {
     return widgetSize === WidgetSize.big ? "big" : "small";
   };
@@ -24,7 +23,7 @@ const PrimaryBtn = ({ label, onClick, widgetSize, widgetColor, width }: Props): 
   };
 
   return (
-    <button className={`primary-btn primary-btn--${size()} primary-btn--${color()}`} onClick={onClick} style={{ width: width ?? widgetSize === WidgetSize.big ? "100%" : 50 }}>
+    <button className={`primary-btn primary-btn--${size()} primary-btn--${color()}`} onClick={onClick} style={{ width: widgetSize === WidgetSize.big ? "100%" : undefined }}>
       {label}
     </button>
   );
