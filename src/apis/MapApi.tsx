@@ -15,7 +15,9 @@ export const fetchGymInfo = async (query: string): Promise<GymInfo[]> => {
       },
     });
 
-    return response.data.items as GymInfo[];
+    const result: GymInfo[] = (response.data.items as GymInfo[]).filter((g: GymInfo) => g.category.includes("스포츠시설"));
+
+    return result;
   } catch (err) {
     // TODO: 에러 코드별 예외처리
     throw new Error();
