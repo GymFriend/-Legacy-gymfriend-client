@@ -1,9 +1,10 @@
 import { persistReducer } from "redux-persist";
 import { combineReducers } from "@reduxjs/toolkit";
 import persistConfig from "./PersistConfig";
+import accountReducer from "./slices/AccountSlice";
 
 const rootReducer = combineReducers({
-  // TODO: reducers 추가
+  account: accountReducer,
 });
 
 export default persistReducer(persistConfig, rootReducer);

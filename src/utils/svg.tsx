@@ -3,7 +3,7 @@ import { ReactElement } from "react";
 export const googleSvg = (size: number): ReactElement => {
   return (
     <svg width={size} height={size} viewBox="-.5 0 48 48" xmlns="http://www.w3.org/2000/svg">
-      <g fill="none" fill-rule="evenodd">
+      <g fill="none" fillRule="evenodd">
         <path
           d="m9.82727273 24c0-1.5242667.25315907-2.9856.70499997-4.3562667l-7.90881815-6.0394666c-1.54138637 3.1296-2.40981819 6.656-2.40981819 10.3957333 0 3.7365333.86736364 7.2608 2.40661364 10.3882667l7.9045455-6.0512c-.4475682-1.3642667-.69752277-2.8202667-.69752277-4.3370667"
           fill="#fbbc05"

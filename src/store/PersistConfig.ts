@@ -5,7 +5,7 @@ import storage from "redux-persist/lib/storage";
 const persistConfig: PersistConfig<any> = {
   key: "root",
   storage,
-  whitelist: [],
+  whitelist: ["account"],
 };
 
 export default persistConfig;

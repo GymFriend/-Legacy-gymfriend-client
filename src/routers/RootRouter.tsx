@@ -7,6 +7,7 @@ import Desktop from "../pages/Desktop";
 import Home from "../pages/Home";
 import Page404 from "../pages/Page404";
 import Join from "../pages/Join";
+import Redirect from "../pages/Redirect";
 
 const RootRouter = (): ReactElement => {
   return (
@@ -17,6 +18,7 @@ const RootRouter = (): ReactElement => {
         <Route path="/join" element={isMobile ? <Join /> : <Desktop />} />
         {/* 컴포넌트 테스트용 화면입니다. 퍼블리싱 환경에선 비활성화 혹은 삭제 요망 */}
         <Route path="/test" element={<WidgetTest />} />
+        <Route path="oauth/callback" element={<Redirect />} />
         <Route path="*" element={<Page404 />} />
       </Routes>
     </BrowserRouter>

@@ -16,6 +16,9 @@ import { format } from "date-fns";
 import { dateFormatYMD } from "../utils/constant";
 import "react-spring-bottom-sheet/dist/style.css";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/RootReducer";
+import { useAuth } from "../hooks/UseAuth";
 
 const category: string[] = ["챌린지", "히스토리"];
 
@@ -32,7 +35,7 @@ const PrevChallenge = ({ challenge }: PrevChallengeProps): ReactElement => {
           <img src={`images/challenge_${challenge.class}.png`} />
         </div>
         <span className="prev-challenge__span">
-          {format(challenge.span.startAt, dateFormatYMD)} ~ {format(challenge.span.endAt, dateFormatYMD)}
+          {format(new Date(challenge.span.startAt), dateFormatYMD)} ~ {format(new Date(challenge.span.endAt), dateFormatYMD)}
         </span>
       </div>
       <div className="prev-challenge__status">
@@ -45,7 +48,10 @@ const PrevChallenge = ({ challenge }: PrevChallengeProps): ReactElement => {
 };
 
 const Home = (): ReactElement => {
+  useAuth();
+
   const navigate = useNavigate();
+  const user: User = useSelector((state: RootState) => state.account.user);
 
   const [validLocationPermission, setValidLocationPermission] = useState<boolean>(false);
   const [userLocation, setuserLocation] = useState<Coordinate | null>(null);
@@ -56,103 +62,6 @@ const Home = (): ReactElement => {
   const [dropdownToggle, setDropdownToggle] = useState<boolean>(false);
 
   const [gymSearch, setGymSearch, resetGymSearch] = useInput<string>("");
-
-  //////////////////////////////////////////////////////////////////////
-  // 테스트용 임시 객체 ////////////////////////////////////////////////////
-  const prevChallenges: ChallengeInfo[] = [
-    {
-      gymName: "해피짐 송파점",
-      span: {
-        startAt: new Date(2023, 1, 1),
-        endAt: new Date(2023, 1, 7),
-      },
-      success: true,
-      class: 7,
-      progress: 100,
-    },
-    {
-      gymName: "퍼니짐 가락점",
-      span: {
-        startAt: new Date(2023, 4, 10),
-        endAt: new Date(2023, 4, 16),
-      },
-      success: false,
-      class: 3,
-      progress: 81,
-    },
-    {
-      gymName: "블루짐 헬리오시티점",
-      span: {
-        startAt: new Date(2023, 4, 20),
-        endAt: new Date(2023, 4, 26),
-      },
-      success: true,
-      class: 5,
-      progress: 100,
-    },
-    {
-      gymName: "블루짐 헬리오시티점",
-      span: {
-        startAt: new Date(2023, 4, 20),
-        endAt: new Date(2023, 4, 26),
-      },
-      success: true,
-      class: 3,
-      progress: 100,
-    },
-    {
-      gymName: "블루짐 헬리오시티점",
-      span: {
-        startAt: new Date(2023, 4, 20),
-        endAt: new Date(2023, 4, 26),
-      },
-      success: true,
-      class: 7,
-      progress: 100,
-    },
-    {
-      gymName: "퍼니짐 가락점",
-      span: {
-        startAt: new Date(2023, 4, 10),
-        endAt: new Date(2023, 4, 16),
-      },
-      success: false,
-      class: 1,
-      progress: 0,
-    },
-    {
-      gymName: "퍼니짐 가락점",
-      span: {
-        startAt: new Date(2023, 4, 10),
-        endAt: new Date(2023, 4, 16),
-      },
-      success: true,
-      class: 1,
-      progress: 100,
-    },
-  ];
-
-  const curChallenge: ChallengeInfo = {
-    gymName: "블루짐 헬리오시티점",
-    span: {
-      startAt: new Date(2023, 5, 3),
-      endAt: new Date(2023, 5, 9),
-    },
-    success: false,
-    class: 3,
-    progress: 31,
-  };
-
-  const user: User = {
-    uuid: "096ccbfe-6e66-11ee-b962-0242ac120002",
-    name: "짐프랜드",
-    point: 50000,
-    prevChallenges: prevChallenges,
-    curChallenge: undefined,
-  };
-
-  //////////////////////////////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////
 
   // 유저에게 위치 권한을 요청하는 코드입니다.
   const requestLocationPermission = (): void => {
@@ -239,7 +148,10 @@ const Home = (): ReactElement => {
   return (
     <div className="home page" onClick={onDropdownOff}>
       <div className="home__header">
-        <span>{user.name}</span>
+        <div className="home__user">
+          <img src="images/challenge_1.png" />
+          <span>{user.kakaoAccount.kakaoNickname}</span>
+        </div>
         <span>{user.point.toLocaleString()}P</span>
       </div>
       <div className="home__nav">
@@ -259,7 +171,7 @@ const Home = (): ReactElement => {
                 <div className="home__current-gym">
                   <span>{user.curChallenge.gymName}</span>
                   <span>
-                    {format(user.curChallenge.span.startAt, dateFormatYMD)} ~ {format(user.curChallenge.span.endAt, dateFormatYMD)}
+                    {format(new Date(user.curChallenge.span.startAt), dateFormatYMD)} ~ {format(new Date(user.curChallenge.span.endAt), dateFormatYMD)}
                   </span>
                 </div>
                 <div className="home__progress">
