@@ -38,7 +38,7 @@ const accountSlice = createSlice({
         kakaoAccount: action.payload,
         point: 50000,
         prevChallenges: prevChallenges,
-        curChallenge: curChallenge,
+        curChallenge: undefined,
       };
       state.isLoggedIn = true;
     });
